@@ -83,16 +83,7 @@ const Book = () => {
 
   const onTouchStart = (e: React.TouchEvent) => {
     if (!isOpen || isAnimating) return;
-    
-    // Check if touch started on a scrollable element or its children
-    const target = e.target as HTMLElement;
-    const scrollableContainer = target.closest('[data-scrollable="true"]');
-    
-    // If touch started inside scrollable content, NEVER capture for swipe navigation
-    if (scrollableContainer) {
-      return; // Always let browser handle scrolling in scrollable areas
-    }
-    
+
     setTouchEnd(null);
     setTouchStart({
       x: e.targetTouches[0].clientX,
@@ -102,17 +93,7 @@ const Book = () => {
 
   const onTouchMove = (e: React.TouchEvent) => {
     if (!isOpen || isAnimating || !touchStart) return;
-    
-    // Check if touch is on scrollable element - if so, cancel immediately
-    const target = e.target as HTMLElement;
-    const scrollableContainer = target.closest('[data-scrollable="true"]');
-    
-    if (scrollableContainer) {
-      setTouchStart(null);
-      setTouchEnd(null);
-      return;
-    }
-    
+
     setTouchEnd({
       x: e.targetTouches[0].clientX,
       y: e.targetTouches[0].clientY,
@@ -121,21 +102,27 @@ const Book = () => {
 
   const onTouchEnd = () => {
     if (!isOpen || isAnimating || !touchStart || !touchEnd) return;
-    
+
     const distanceX = touchStart.x - touchEnd.x;
     const distanceY = touchStart.y - touchEnd.y;
+
+    const absX = Math.abs(distanceX);
+    const absY = Math.abs(distanceY);
+
+    // If vertical movement is clearly dominant, treat as scroll and ignore
+    if (absY > absX && absY > 10) {
+      setTouchStart(null);
+      setTouchEnd(null);
+      return;
+    }
+
     const isLeftSwipe = distanceX > minSwipeDistance;
     const isRightSwipe = distanceX < -minSwipeDistance;
-    const isVerticalSwipe = Math.abs(distanceY) > Math.abs(distanceX);
 
-    // Only handle horizontal swipes (ignore vertical scrolling)
-    if (!isVerticalSwipe) {
-      if (isLeftSwipe && currentPage < totalPages - 1) {
-        nextPage();
-      }
-      if (isRightSwipe && currentPage > 0) {
-        prevPage();
-      }
+    if (isLeftSwipe && currentPage < totalPages - 1) {
+      nextPage();
+    } else if (isRightSwipe && currentPage > 0) {
+      prevPage();
     }
 
     setTouchStart(null);
