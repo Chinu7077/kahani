@@ -148,6 +148,19 @@
     border-radius: 0 0.5rem 0.5rem 0;
     overflow: hidden;
     -webkit-overflow-scrolling: touch;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  /* Mobile-specific scroll fixes */
+  @media (max-width: 768px) {
+    [data-scrollable="true"] {
+      -webkit-overflow-scrolling: touch !important;
+      overflow-y: scroll !important;
+      -webkit-transform: translateZ(0) !important;
+      transform: translateZ(0) !important;
+      will-change: scroll-position;
+    }
   }
 
   .book-page-back {

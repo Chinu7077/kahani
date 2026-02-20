@@ -24,36 +24,38 @@ const BookPage = ({ chapter, pageNumber, totalPages }: BookPageProps) => {
 
   return (
     <div className="w-full h-full bg-book-paper rounded-r-lg page-shadow flex flex-col overflow-hidden">
-      {/* Page inner content */}
+      {/* Page inner content - Mobile optimized scrolling */}
       <div 
-        className="flex-1 flex flex-col p-6 md:p-10 overflow-y-auto overflow-x-hidden" 
+        className="flex-1 flex flex-col p-4 md:p-10 overflow-y-scroll overflow-x-hidden" 
         data-scrollable="true"
         style={{ 
-          WebkitOverflowScrolling: 'touch', 
+          WebkitOverflowScrolling: 'touch',
+          WebkitTransform: 'translateZ(0)', // Force hardware acceleration
+          transform: 'translateZ(0)',
           minHeight: 0,
-          maxHeight: '100%',
-          height: 0, // Force flex-1 to work properly
-          touchAction: 'pan-y' // Allow vertical panning (scrolling)
+          position: 'relative',
+          touchAction: 'pan-y pinch-zoom', // Explicitly allow vertical scrolling
+          overscrollBehavior: 'contain'
         }}
       >
         
-        {/* Chapter title */}
+        {/* Chapter title - Smaller on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <span className="font-serif text-sm tracking-widest uppercase text-muted-foreground">
+          <span className="font-serif text-xs md:text-sm tracking-widest uppercase text-muted-foreground">
             ଅଧ୍ୟାୟ {chapter.displayId}
           </span>
-          <h2 className="font-serif text-2xl md:text-3xl text-foreground mt-1 mb-6">
+          <h2 className="font-serif text-xl md:text-3xl text-foreground mt-1 mb-4 md:mb-6">
             {chapter.title}
           </h2>
         </motion.div>
 
-        {/* ✅ Updated Image Section (Placeholder hatakar image daal di hai) */}
+        {/* ✅ Updated Image Section - Smaller on mobile */}
         <motion.div
-          className="image-container mb-6 flex-shrink-0 bg-muted/10 rounded-lg overflow-hidden h-48 md:h-60 flex items-center justify-center border border-border/20 shadow-sm"
+          className="image-container mb-4 md:mb-6 flex-shrink-0 bg-muted/10 rounded-lg overflow-hidden h-32 md:h-60 flex items-center justify-center border border-border/20 shadow-sm"
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
@@ -69,9 +71,10 @@ const BookPage = ({ chapter, pageNumber, totalPages }: BookPageProps) => {
           />
         </motion.div>
 
-        {/* Story text */}
+        {/* Story text - Smaller font and tighter spacing on mobile */}
         <motion.p
-          className="font-sans text-sm md:text-base leading-relaxed text-foreground/80 pb-4"
+          className="font-sans text-xs md:text-base leading-relaxed md:leading-relaxed text-foreground/80 pb-4"
+          style={{ lineHeight: '1.6' }}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
@@ -81,8 +84,8 @@ const BookPage = ({ chapter, pageNumber, totalPages }: BookPageProps) => {
       </div>
 
       {/* Page number section */}
-      <div className="px-6 md:px-10 pb-4 flex justify-center flex-shrink-0">
-        <span className="font-serif text-sm text-muted-foreground/60 border-t border-border/30 pt-2 px-4">
+      <div className="px-4 md:px-10 pb-3 md:pb-4 flex justify-center flex-shrink-0">
+        <span className="font-serif text-xs md:text-sm text-muted-foreground/60 border-t border-border/30 pt-2 px-4">
           {toOdia(pageNumber)}
         </span>
       </div>
