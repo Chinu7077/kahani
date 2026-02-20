@@ -14,6 +14,8 @@ const Book = () => {
   const [flippedPages, setFlippedPages] = useState<Set<number>>(new Set());
   const [isAnimating, setIsAnimating] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
+  const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
 
   const totalPages = chapters.length * 2 + 1;
 
@@ -76,6 +78,49 @@ const Book = () => {
     setTilt({ x: 0, y: 0 });
   };
 
+  // Swipe gesture handlers
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    if (!isOpen || isAnimating) return;
+    setTouchEnd(null);
+    setTouchStart({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!isOpen || isAnimating) return;
+    setTouchEnd({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  };
+
+  const onTouchEnd = () => {
+    if (!isOpen || isAnimating || !touchStart || !touchEnd) return;
+    
+    const distanceX = touchStart.x - touchEnd.x;
+    const distanceY = touchStart.y - touchEnd.y;
+    const isLeftSwipe = distanceX > minSwipeDistance;
+    const isRightSwipe = distanceX < -minSwipeDistance;
+    const isVerticalSwipe = Math.abs(distanceY) > Math.abs(distanceX);
+
+    // Only handle horizontal swipes (ignore vertical scrolling)
+    if (!isVerticalSwipe) {
+      if (isLeftSwipe && currentPage < totalPages - 1) {
+        nextPage();
+      }
+      if (isRightSwipe && currentPage > 0) {
+        prevPage();
+      }
+    }
+
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
   // Keyboard Navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -106,6 +151,9 @@ const Book = () => {
         className="book-perspective w-full max-w-[800px]"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
       >
         <div
           className="book-container relative mx-auto"

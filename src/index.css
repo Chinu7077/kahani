@@ -147,6 +147,7 @@
     backface-visibility: hidden;
     border-radius: 0 0.5rem 0.5rem 0;
     overflow: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   .book-page-back {

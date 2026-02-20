@@ -25,7 +25,7 @@ const BookPage = ({ chapter, pageNumber, totalPages }: BookPageProps) => {
   return (
     <div className="w-full h-full bg-book-paper rounded-r-lg page-shadow flex flex-col overflow-hidden">
       {/* Page inner content */}
-      <div className="flex-1 flex flex-col p-6 md:p-10 overflow-y-auto">
+      <div className="flex-1 flex flex-col p-6 md:p-10 overflow-y-auto overflow-x-hidden" style={{ WebkitOverflowScrolling: 'touch', minHeight: 0 }}>
         
         {/* Chapter title */}
         <motion.div
@@ -61,7 +61,7 @@ const BookPage = ({ chapter, pageNumber, totalPages }: BookPageProps) => {
 
         {/* Story text */}
         <motion.p
-          className="font-sans text-sm md:text-base leading-relaxed text-foreground/80 flex-1"
+          className="font-sans text-sm md:text-base leading-relaxed text-foreground/80 pb-4"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
@@ -71,7 +71,7 @@ const BookPage = ({ chapter, pageNumber, totalPages }: BookPageProps) => {
       </div>
 
       {/* Page number section */}
-      <div className="px-6 md:px-10 pb-4 flex justify-center">
+      <div className="px-6 md:px-10 pb-4 flex justify-center flex-shrink-0">
         <span className="font-serif text-sm text-muted-foreground/60 border-t border-border/30 pt-2 px-4">
           {toOdia(pageNumber)}
         </span>
