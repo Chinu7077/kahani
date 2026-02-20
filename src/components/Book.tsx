@@ -83,6 +83,20 @@ const Book = () => {
 
   const onTouchStart = (e: React.TouchEvent) => {
     if (!isOpen || isAnimating) return;
+    
+    // Check if touch started on a scrollable element or its children
+    const target = e.target as HTMLElement;
+    const scrollableContainer = target.closest('[data-scrollable="true"]');
+    
+    // If touch started inside scrollable content, don't capture for swipe navigation
+    if (scrollableContainer) {
+      // Check if the element can actually scroll
+      const element = scrollableContainer as HTMLElement;
+      if (element.scrollHeight > element.clientHeight) {
+        return; // Let the browser handle scrolling
+      }
+    }
+    
     setTouchEnd(null);
     setTouchStart({
       x: e.targetTouches[0].clientX,
@@ -91,7 +105,26 @@ const Book = () => {
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
-    if (!isOpen || isAnimating) return;
+    if (!isOpen || isAnimating || !touchStart) return;
+    
+    // Check if touch is on scrollable element
+    const target = e.target as HTMLElement;
+    const scrollableContainer = target.closest('[data-scrollable="true"]');
+    
+    if (scrollableContainer) {
+      const element = scrollableContainer as HTMLElement;
+      // If element can scroll and user is moving vertically, cancel swipe detection
+      if (element.scrollHeight > element.clientHeight) {
+        const deltaY = Math.abs(touchStart.y - e.targetTouches[0].clientY);
+        const deltaX = Math.abs(touchStart.x - e.targetTouches[0].clientX);
+        // If vertical movement is greater, user is scrolling - cancel swipe
+        if (deltaY > deltaX || deltaY > 10) {
+          setTouchStart(null);
+          return;
+        }
+      }
+    }
+    
     setTouchEnd({
       x: e.targetTouches[0].clientX,
       y: e.targetTouches[0].clientY,

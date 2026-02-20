@@ -25,7 +25,17 @@ const BookPage = ({ chapter, pageNumber, totalPages }: BookPageProps) => {
   return (
     <div className="w-full h-full bg-book-paper rounded-r-lg page-shadow flex flex-col overflow-hidden">
       {/* Page inner content */}
-      <div className="flex-1 flex flex-col p-6 md:p-10 overflow-y-auto overflow-x-hidden" style={{ WebkitOverflowScrolling: 'touch', minHeight: 0 }}>
+      <div 
+        className="flex-1 flex flex-col p-6 md:p-10 overflow-y-auto overflow-x-hidden" 
+        data-scrollable="true"
+        style={{ 
+          WebkitOverflowScrolling: 'touch', 
+          minHeight: 0,
+          maxHeight: '100%',
+          height: 0, // Force flex-1 to work properly
+          touchAction: 'pan-y' // Allow vertical panning (scrolling)
+        }}
+      >
         
         {/* Chapter title */}
         <motion.div
