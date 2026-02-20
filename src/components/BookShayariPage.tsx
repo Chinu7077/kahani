@@ -36,7 +36,7 @@ const BookShayariPage = ({ chapter, pageNumber }: BookShayariPageProps) => {
       
       {/* ✅ Alag-alag Corner Image Section */}
       <div
-        className={`absolute ${cornerClasses[chapter.imageCorner]} ${cornerRounded[chapter.imageCorner]} w-24 h-24 sm:w-32 sm:h-32 md:w-44 md:h-44 z-10 overflow-hidden shadow-sm`}
+        className={`absolute ${cornerClasses[chapter.imageCorner]} ${cornerRounded[chapter.imageCorner]} w-20 h-20 sm:w-28 sm:h-28 md:w-40 md:h-40 z-10 overflow-hidden shadow-sm`}
       >
         <img 
           src={imageSrc} 
@@ -48,26 +48,26 @@ const BookShayariPage = ({ chapter, pageNumber }: BookShayariPageProps) => {
         <div className="absolute inset-0 bg-book-paper/10 mix-blend-multiply pointer-events-none" />
       </div>
 
-      {/* Shayari content - scrollable on small screens */}
-      <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 md:p-14 relative z-20 overflow-y-auto min-h-0">
+      {/* Shayari content - tight spacing to fit single page */}
+      <div className="flex-1 flex flex-col items-center justify-center p-3 sm:p-5 md:p-10 relative z-20 overflow-y-auto min-h-0">
         <motion.div
           className="w-full max-w-md text-center"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          <span className="font-sans text-[10px] tracking-[0.4em] uppercase text-muted-foreground/50 mb-6 block">
+          <span className="font-sans text-[10px] tracking-[0.4em] uppercase text-muted-foreground/50 mb-2 sm:mb-3 block">
             ✦ କିଛି ଅକୁହା କଥା ✦
           </span>
-          <p className="font-serif text-base sm:text-xl md:text-2xl leading-[2.2] text-foreground/80 whitespace-pre-line italic break-words">
+          <p className="font-serif text-sm sm:text-lg md:text-xl leading-[1.7] sm:leading-[1.85] text-foreground/80 whitespace-pre-line italic break-words">
             {chapter.shayari}
           </p>
         </motion.div>
       </div>
 
       {/* Page number section */}
-      <div className="px-4 md:px-10 pb-4 md:pb-6 flex justify-center flex-shrink-0 relative z-20">
-        <span className="font-serif text-xs text-muted-foreground/30 border-t border-black/5 pt-2 px-6">
+      <div className="px-3 sm:px-4 md:px-10 pb-2 sm:pb-4 flex justify-center flex-shrink-0 relative z-20">
+        <span className="font-serif text-[10px] sm:text-xs text-muted-foreground/30 border-t border-black/5 pt-1.5 sm:pt-2 px-4 sm:px-6">
           {toOdia(pageNumber)}
         </span>
       </div>

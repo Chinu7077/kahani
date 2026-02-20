@@ -11,7 +11,6 @@ import { ChevronLeft, ChevronRight, Home, MoveHorizontal } from "lucide-react";
 const Book = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [showSwipeHint, setShowSwipeHint] = useState(true);
   const [flippedPages, setFlippedPages] = useState<Set<number>>(new Set());
   const [isAnimating, setIsAnimating] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -44,14 +43,8 @@ const Book = () => {
     [isAnimating, totalPages]
   );
 
-  const nextPage = () => {
-    setShowSwipeHint(false);
-    flipToPage(currentPage + 1);
-  };
-  const prevPage = () => {
-    setShowSwipeHint(false);
-    flipToPage(currentPage - 1);
-  };
+  const nextPage = () => flipToPage(currentPage + 1);
+  const prevPage = () => flipToPage(currentPage - 1);
 
   // 🔥 FAST HOME (CLOSE BOOK)
   const goHome = () => {
@@ -231,7 +224,7 @@ const Book = () => {
       </div>
 
       {/* Swipe hint - shown when book is open */}
-      {isOpen && showSwipeHint && (
+      {isOpen && (
         <div
           className="flex items-center gap-2 text-muted-foreground text-xs sm:text-sm mt-3"
         >
