@@ -7,8 +7,8 @@ interface TableOfContentsProps {
 
 const TableOfContents = ({ onChapterSelect }: TableOfContentsProps) => {
   return (
-    <div className="w-full h-full bg-book-paper rounded-r-lg page-shadow flex flex-col overflow-hidden">
-      <div className="flex-1 flex flex-col items-center p-6 md:p-10 overflow-y-auto">
+    <div className="w-full h-full min-w-0 min-h-0 bg-book-paper rounded-r-lg page-shadow flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col items-center p-4 sm:p-6 md:p-10 overflow-y-auto min-h-0">
         {/* Ornament */}
         <div className="w-12 h-[1px] bg-border mb-6 mt-2" />
 
@@ -21,7 +21,7 @@ const TableOfContents = ({ onChapterSelect }: TableOfContentsProps) => {
           ସୂଚୀପତ୍ର
         </motion.h2>
 
-        <div className="w-full max-w-xs space-y-4">
+        <div className="w-full max-w-[90%] sm:max-w-xs space-y-4">
           {chapters.map((chapter, index) => (
             <motion.button
               key={chapter.id}
@@ -38,7 +38,7 @@ const TableOfContents = ({ onChapterSelect }: TableOfContentsProps) => {
               
               <span className="flex-1 border-b border-dotted border-border/60 pb-1" />
               
-              <span className="chapter-link text-sm md:text-base text-book-chapter group-hover:text-foreground transition-colors">
+              <span className="chapter-link text-sm md:text-base text-book-chapter group-hover:text-foreground transition-colors break-words text-left">
                 {chapter.title}
               </span>
             </motion.button>

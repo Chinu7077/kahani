@@ -16,7 +16,7 @@ const BookCover = ({ isOpen, onOpen }: BookCoverProps) => {
     >
       {/* Front cover */}
       <div 
-        className="book-page-front bg-book-cover rounded-r-lg flex flex-col items-center justify-center p-8 cover-shadow relative overflow-hidden h-full w-full"
+        className="book-page-front bg-book-cover rounded-r-lg flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 cover-shadow relative overflow-hidden h-full w-full"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/coverp.jpg')`,
           backgroundSize: 'cover', // 'cover' standard hai, agar image stretch ho toh '100% 100%' kar sakte hain
@@ -33,7 +33,7 @@ const BookCover = ({ isOpen, onOpen }: BookCoverProps) => {
           <div className="w-16 h-[2px] bg-book-gold/60 mb-8" />
 
           <motion.h1
-            className="font-serif text-3xl md:text-4xl lg:text-5xl text-book-gold leading-tight tracking-wide drop-shadow-lg"
+            className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-book-gold leading-tight tracking-wide drop-shadow-lg text-center break-words px-2"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
@@ -44,7 +44,7 @@ const BookCover = ({ isOpen, onOpen }: BookCoverProps) => {
           </motion.h1>
 
           <motion.p
-            className="font-sans text-m md:text-base text-book-gold-light/80 mt-4 tracking-widest uppercase font-bold"
+            className="font-sans text-sm md:text-base text-book-gold-light/80 mt-4 tracking-widest uppercase font-bold"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.8 }}
@@ -55,14 +55,30 @@ const BookCover = ({ isOpen, onOpen }: BookCoverProps) => {
           <div className="w-16 h-[2px] bg-book-gold/60 mt-8" />
         </div>
 
-        <motion.span
-          className="absolute bottom-12 font-sans text-xl text-book-gold/70 tracking-widest z-30 font-semibold"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-        >
-          ଖୋଲନ୍ତୁ
-        </motion.span>
+        <div className="absolute bottom-6 sm:bottom-12 left-0 right-0 flex flex-col items-center gap-2 z-30">
+          <motion.div
+            className="flex flex-col items-center gap-1"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+          >
+            <span className="font-sans text-base sm:text-xl text-book-gold tracking-widest font-bold">
+              ଖୋଲନ୍ତୁ
+            </span>
+            <span className="font-sans text-xs sm:text-sm text-book-gold-light/80 tracking-wide flex items-center gap-1.5">
+              <span className="text-base">👆</span>
+              ଏଠି କ୍ଲିକ୍ କରନ୍ତୁ
+            </span>
+          </motion.div>
+          <motion.span
+            className="font-sans text-xs sm:text-sm text-book-gold/60 tracking-wide"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4, duration: 0.6 }}
+          >
+            Created by – ଚିନୁ
+          </motion.span>
+        </div>
       </div>
 
       {/* Back of cover */}

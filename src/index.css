@@ -162,6 +162,11 @@
       will-change: scroll-position;
     }
   }
+  
+  /* Prevent text cutoff across all book content */
+  .book-page-front * {
+    max-width: 100%;
+  }
 
   .book-page-back {
     transform: rotateY(180deg);

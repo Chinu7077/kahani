@@ -23,10 +23,10 @@ const BookPage = ({ chapter, pageNumber, totalPages }: BookPageProps) => {
   const imageSrc = `/images/${99 + chapter.id}.png`;
 
   return (
-    <div className="w-full h-full bg-book-paper rounded-r-lg page-shadow flex flex-col overflow-hidden">
+    <div className="w-full h-full min-w-0 min-h-0 bg-book-paper rounded-r-lg page-shadow flex flex-col overflow-hidden">
       {/* Page inner content - Mobile optimized scrolling */}
       <div 
-        className="flex-1 flex flex-col p-4 md:p-10 overflow-y-scroll overflow-x-hidden" 
+        className="flex-1 flex flex-col p-3 sm:p-4 md:p-10 overflow-y-scroll overflow-x-hidden min-h-0 min-w-0" 
         data-scrollable="true"
         style={{ 
           WebkitOverflowScrolling: 'touch',
@@ -71,10 +71,10 @@ const BookPage = ({ chapter, pageNumber, totalPages }: BookPageProps) => {
           />
         </motion.div>
 
-        {/* Story text - Smaller font and tighter spacing on mobile */}
+        {/* Story text - responsive, prevents cutoff */}
         <motion.p
-          className="font-sans text-xs md:text-base leading-relaxed md:leading-relaxed text-foreground/80 pb-4"
-          style={{ lineHeight: '1.6' }}
+          className="font-sans text-sm md:text-base leading-relaxed text-foreground/80 pb-4 break-words"
+          style={{ lineHeight: "1.6", wordBreak: "break-word", overflowWrap: "break-word" }}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
@@ -84,7 +84,7 @@ const BookPage = ({ chapter, pageNumber, totalPages }: BookPageProps) => {
       </div>
 
       {/* Page number section */}
-      <div className="px-4 md:px-10 pb-3 md:pb-4 flex justify-center flex-shrink-0">
+      <div className="px-3 sm:px-4 md:px-10 pb-3 md:pb-4 flex justify-center flex-shrink-0">
         <span className="font-serif text-xs md:text-sm text-muted-foreground/60 border-t border-border/30 pt-2 px-4">
           {toOdia(pageNumber)}
         </span>

@@ -6,11 +6,12 @@ import BookCover from "./BookCover";
 import BookPage from "./BookPage";
 import BookShayariPage from "./BookShayariPage";
 import TableOfContents from "./TableOfContents";
-import { ChevronLeft, ChevronRight, Home } from "lucide-react";
+import { ChevronLeft, ChevronRight, Home, MoveHorizontal } from "lucide-react";
 
 const Book = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
   const [flippedPages, setFlippedPages] = useState<Set<number>>(new Set());
   const [isAnimating, setIsAnimating] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -43,8 +44,14 @@ const Book = () => {
     [isAnimating, totalPages]
   );
 
-  const nextPage = () => flipToPage(currentPage + 1);
-  const prevPage = () => flipToPage(currentPage - 1);
+  const nextPage = () => {
+    setShowSwipeHint(false);
+    flipToPage(currentPage + 1);
+  };
+  const prevPage = () => {
+    setShowSwipeHint(false);
+    flipToPage(currentPage - 1);
+  };
 
   // 🔥 FAST HOME (CLOSE BOOK)
   const goHome = () => {
@@ -154,9 +161,9 @@ const Book = () => {
   ];
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
+    <div className="w-full min-h-screen min-h-[100dvh] flex flex-col items-center justify-center p-2 sm:p-4 md:p-8">
       <div
-        className="book-perspective w-full max-w-[800px]"
+        className="book-perspective w-full max-w-[800px] min-w-0"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onTouchStart={onTouchStart}
@@ -164,11 +171,11 @@ const Book = () => {
         onTouchEnd={onTouchEnd}
       >
         <div
-          className="book-container relative mx-auto"
+          className="book-container relative mx-auto min-w-0 w-full"
           style={{
             width: "100%",
             aspectRatio: "3 / 4",
-            maxHeight: "85vh",
+            maxHeight: "min(85vh, 80dvh)",
             transform: !isOpen
               ? `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`
               : undefined,
@@ -222,6 +229,17 @@ const Book = () => {
           <BookCover isOpen={isOpen} onOpen={handleOpen} />
         </div>
       </div>
+
+      {/* Swipe hint - shown when book is open */}
+      {isOpen && showSwipeHint && (
+        <div
+          className="flex items-center gap-2 text-muted-foreground text-xs sm:text-sm mt-3"
+        >
+          <MoveHorizontal size={18} className="animate-pulse" />
+          <span>Swipe left/right to turn pages</span>
+          <MoveHorizontal size={18} className="animate-pulse" />
+        </div>
+      )}
 
       {/* Navigation */}
       {isOpen && (
